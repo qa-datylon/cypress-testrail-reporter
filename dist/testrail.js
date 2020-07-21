@@ -29,6 +29,24 @@ var TestRail = /** @class */ (function () {
         })
             .catch(function (error) { return console.error(error); });
     };
+    TestRail.prototype.getRun = function (name) {
+        var _this = this;
+        axios({
+            method: 'get',
+            url: this.base + "/get_runs/" + this.options.projectId,
+            headers: { 'Content-Type': 'application/json' },
+            auth: {
+                username: this.options.username,
+                password: this.options.password,
+            }
+        })
+            .then(function (response) {
+                const allRuns=response.data;
+                const a=allRuns.find(i=>i.name==='TestCypress');
+            _this.runId = a.id;
+        })
+            .catch(function (error) { return console.error(error); });
+    };
     TestRail.prototype.deleteRun = function () {
         axios({
             method: 'post',
