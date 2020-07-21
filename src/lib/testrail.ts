@@ -26,10 +26,28 @@ export class TestRail {
         include_all: true,
       }),
     })
-      .then(response => {
+      .then((response) => {
         this.runId = response.data.id;
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
+  }
+
+  public getRun(name: string) {
+    axios({
+      method: 'get',
+      url: `${this.base}/get_runs/${this.options.projectId}`,
+      headers: { 'Content-Type': 'application/json' },
+      auth: {
+        username: this.options.username,
+        password: this.options.password,
+      },
+    })
+      .then((response) => {
+        const allRuns = response.data;
+        const a = allRuns.find((i) => i.name === name);
+        this.runId = a.id;
+      })
+      .catch((error) => console.error(error));
   }
 
   public deleteRun() {
@@ -41,7 +59,7 @@ export class TestRail {
         username: this.options.username,
         password: this.options.password,
       },
-    }).catch(error => console.error(error));
+    }).catch((error) => console.error(error));
   }
 
   public publishResults(results: TestRailResult[]) {
@@ -55,7 +73,7 @@ export class TestRail {
       },
       data: JSON.stringify({ results }),
     })
-      .then(response => {
+      .then((response) => {
         console.log('\n', chalk.magenta.underline.bold('(TestRail Reporter)'));
         console.log(
           '\n',
@@ -65,6 +83,6 @@ export class TestRail {
           '\n'
         );
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }
 }

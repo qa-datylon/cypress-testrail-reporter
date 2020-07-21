@@ -38,11 +38,11 @@ var TestRail = /** @class */ (function () {
             auth: {
                 username: this.options.username,
                 password: this.options.password,
-            }
+            },
         })
             .then(function (response) {
-                const allRuns=response.data;
-                const a=allRuns.find(i=>i.name==='TestCypress');
+            var allRuns = response.data;
+            var a = allRuns.find(function (i) { return i.name === name; });
             _this.runId = a.id;
         })
             .catch(function (error) { return console.error(error); });
